@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://blog.astrabun.com/blog</id>
+    <title>Bunny Blog Blog</title>
+    <updated>2022-09-19T00:00:00.000Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://blog.astrabun.com/blog"/>
+    <subtitle>Bunny Blog Blog</subtitle>
+    <icon>https://blog.astrabun.com/img/favicon.ico</icon>
+    <entry>
+        <title type="html"><![CDATA[Welcome]]></title>
+        <id>2022/09/19/welcome</id>
+        <link href="https://blog.astrabun.com/blog/2022/09/19/welcome"/>
+        <updated>2022-09-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Hello and welcome to my blog!]]></summary>
+        <content type="html"><![CDATA[<p>Hello and welcome to my blog!</p><p>I plan on using this space to document projects I'm working on and other longer-form text content that doesn't quite belong on other platforms on which I am a user. </p><p>For the time being, I'm planning on using <a href="https://docusaurus.io/" target="_blank" rel="noopener noreferrer">Docusaurus</a> to maintain this blog due to its simplicity in setup and authoring. While it may typically be used for documentation purposes, I am a fan of how it handles blogs, so that's the piece I'll be using.</p><p>This blog should also be going live very close to when my main "Linktree-like" website goes live. To find me elsewhere on the web, check out <a href="https://astrabun.com" target="_blank" rel="noopener noreferrer">astrabun.com</a> -- made using React JS + MUIv5. This links hub project was the second time I think I've used TypeScript, which has certainly been interesting so far. Previously, any modern front-end web development I've done has been purely in JavaScript, but from what I've seen in TS so far, I've liked it!</p><p>As a final note on programming/coding/scripting languages, I've definitely got more formal and professional experience with Python, but it is also worth mentioning that most of my knowledge in this space is self-taught. There's always more to learn, and that's exciting! (Also I'm trying to teach myself golang nowadays too).</p><p>Well, until next time!</p><p>&lt;3, Astra</p>]]></content>
+        <author>
+            <name>Astra</name>
+            <uri>https://astrabun.com</uri>
+        </author>
+    </entry>
+</feed>
