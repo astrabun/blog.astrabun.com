@@ -10,14 +10,15 @@ const config = {
   tagline: 'The Blog by the Bunny',
   url: 'https://blog.astrabun.com',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  // onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn', // disabled -- seems to not like blog only mode
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'astrabun', // Usually your GitHub org/user name.
+  projectName: 'blog.astrabun.com', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
