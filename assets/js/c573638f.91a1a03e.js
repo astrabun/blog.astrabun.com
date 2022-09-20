@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog_astrabun_com=self.webpackChunkblog_astrabun_com||[]).push([[964],{8866:a=>{a.exports=JSON.parse('[{"label":"TikTok","permalink":"/tags/tik-tok","count":1}]')}}]);
