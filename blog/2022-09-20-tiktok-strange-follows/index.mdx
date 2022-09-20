@@ -1,0 +1,163 @@
+---
+slug: 2022/09/20/tiktok-strange-follows
+# title: "The Curious Case of [a-z0-9]{8,13}: The Pattern So Far"
+# simplified title to make it a bit easier to read, but it's meant to refer to the regular expression of suspicious user account names in this post
+title: "The Curious Case of az09813: The Pattern So Far"
+authors: [astra]
+tags: [TikTok]
+---
+import userData from "./user_data.json";
+import imgReportReasons from "./img/Screenshot_20220919-190644.png";
+import imgReportStatus from "./img/Screenshot_20220919-190504.png";
+import imgReportFollowUps from "./img/Screenshot_20220919-122727.png";
+let nonNullUsers = Object.keys(Object.fromEntries(Object.entries(userData.users).filter(([k,v]) => v.data !== null)));
+let regionCounts = {};
+let getFollowersCount = u => userData.users[u].data.stats.followerCount;
+let getFollowingCount = u => userData.users[u].data.stats.followingCount;
+let averageFollowerCount = nonNullUsers.reduce((a,c) => a + getFollowersCount(c), 0) / nonNullUsers.length;
+let averageFollowingCount = nonNullUsers.reduce((a,c) => a + getFollowingCount(c), 0) / nonNullUsers.length;
+let uid_mod_times = [];
+nonNullUsers.forEach(u => {
+  let d = userData.users[u].data;
+  let r = d.user.region;
+  if(regionCounts[r]){
+    regionCounts[r] = regionCounts[r] + 1;
+  } else {
+    regionCounts[r] = 1
+  };
+  uid_mod_times.push(new Date(d.user.unique_id_modify_time*1000))
+});
+
+
+
+TikTok is an imperfect social media platform (well, aren't most?). While you might not have heard me talk about this on [my TikTok](https://www.tiktok.com/@astra.bun/), I've definitely critisized the platform and its moderation on past [Twitch streams](https://www.twitch.tv/astrabun) to some length. I've experienced strange video and sound blocks that most definitely did not *actually* violate any ToS (e.g. a video containing my own [acapella-with-vocoder cover of a Bon Iver song](https://www.tiktok.com/@astra.bun/video/7105965403112885546) had the sound removed for violating copyright - now fully restored after an appeal - even though all elements of the sound were created by me, obviously besides the melody and lyrics -- that's what a cover *is* after all. I've had one or two other videos removed for general "community guidelines violations" that were not suggestive or promoting dis/misinformation; no reason was ever given to me as to the reason for these videos' removal. All I can say is that each instance seems to have tanked my engagement for weeks afterward).
+
+## The Problem with TikTok... er... problem<u>**s**</u>
+
+One of the problems I most commonly hear about the platform from other creators is the fear of criticizing TikTok... ON TikTok. Users refer to the platform as "clock app" and other similar names to avoid keyword detection (a key feature of TikTok is its automatic caption generation, so TikTok is probably already doing recognition on words in the audio already). This is why I've decided to write about this on my blog rather than make a TikTok about it, at least until I think of a clever enough way to make a short-form video about the specific issue I will spend the rest of this post describing.
+
+---
+
+## az09813, or rather... /[a-z0-9]{8,13}/
+
+By this point, if you paid attention to the title, you may be curious about what I could possibly be referring to by `az09813`. It would be more accurate to write `/[a-z0-9]{8,13}/`, or the [regular expression](https://en.wikipedia.org/wiki/Regular_expression) of the numerous accounts that have started following my account over the last week or so. These accounts, I should mention, do not solely follow me, but we'll get into patterns shortly. 
+
+<details>
+  <summary>List of {Object.keys(userData.users).length} Suspicious Accounts That Have Followed Me (Updated {userData.metadata.last_updated.split('.')[0]} ET)</summary>
+  <div>
+    {Object.keys(userData.users).map(e => <pre>{e}</pre>)}
+  </div>
+
+</details>
+
+My goal with this post is twofold: 1) explore the similarities and/or differences between these users, and 2) point out what seems to me like a flaw with TikTok moderation and account verification. I've collected any available information on these accounts using an unofficial TikTok API service to try and make this process less manual.
+
+### Observations:
+
+<div style={{ fontStyle: "italic" }}>
+  {`(from ${nonNullUsers.length} accounts that haven't been banned at the time of first data collection)`}
+</div>
+
+#### Regions observed: 
+<pre>
+  {
+    JSON.stringify(
+      regionCounts
+    )
+  }
+</pre>
+
+#### Average number of followers the account had:
+
+<pre>
+  {averageFollowerCount}
+</pre>
+
+#### Average number of users the account was following:
+
+<pre>
+  {averageFollowingCount}
+</pre>
+
+#### "unique_id_modify_time":
+
+<pre>
+  {JSON.stringify(uid_mod_times, null, "  ")}
+</pre>
+
+
+### Actions
+
+After seeing an initial flood of these users following me (the first 8 or so followed all within a day) and then a trickle (one every day or every other day, so far continuing through the date of this blog post's publishing), I decided to report the accounts and block them. 
+
+<figure>
+  <img src={imgReportReasons} alt="Report Reasons" style={{ width: '50%', display: "block", marginLeft: "auto", marginRight: "auto" }} />
+  <figcaption align="center" style={{ textAlign: "center" }}>
+    <b>Report Reasons</b>
+  </figcaption>
+</figure>
+
+However, TikTok's reporting options for accounts do not really account for "this account looks suspicious to me but they haven't *technically* done anything yet...". 
+
+Nonetheless, I reported anyway as the "Other" reason since these accounts were following too quickly and had remarkably similar, appearing-to-be-randomly-generated names - and I wanted to see what TikTok support would do. 
+
+It may or may not surprise you that the response was...
+
+<figure>
+  <img src={imgReportStatus} alt="The only FAST turnaround time I've gotten with TikTok support -- telling me my suspicious account report is bogus. Welp." style={{ width: '50%', display: "block", marginLeft: "auto", marginRight: "auto" }} />
+  <figcaption align="center" style={{ textAlign: "center" }}>
+    <b>The only FAST turnaround time I've gotten with TikTok support -- telling me my suspicious account report is bogus. Welp.</b>
+  </figcaption>
+</figure>
+
+Checking back in on these accounts within a day or so revealed that many, but not all, had eventually been banned. I am unsure if this is due to a number of other user reports, or if the accounts had done any commenting or statistically-manipulating behavior. 
+
+<figure>
+  <img src={imgReportFollowUps} alt="A view of my TikTok system notifications within a few days of the start of this activity." style={{ width: '50%', display: "block", marginLeft: "auto", marginRight: "auto" }} />
+  <figcaption align="center" style={{ textAlign: "center" }}>
+    <b>A view of my TikTok system notifications within a few days of the start of this activity. "Tik Toker" implies the user has been banned, whereas the presence of an original, randomly generated username implies the user is still active. </b>
+  </figcaption>
+</figure>
+
+I also took time to look at some of the other accounts these spam(?)/suspicious accounts were following. While I am not including this data in this blog post specifically, I will share a few qualitative observations:
+
+- Multiple other furries seemed to be followed by SOME of these accounts
+- Most accounts appeared to be regular people, so maybe not specifically targeted at all
+- The accounts that DID follow multiple furries may have used the "suggested" follows after following ONE furry, which makes it even more interesting to me how they ended up on my account on the ones where 99% of the other users in the list appeared to be very, very much **not furries**
+- Referencing some of the data in an earlier section of this post, theseuser accounts appeared to be primarily, but not exclusively, registered in China
+
+---
+
+As of now, I'm not sure exactly what conclusion to draw as to what these accounts' purpose is/was, but I do feel fairly confident in two things.
+
+1) These accounts do not appear to be specifically targeting anyone or any particular groups, but rather may be following anyone in the "suggested" users list
+
+2) TikTok account verification (at sign-up and after bulk following activity) is not strong enough to block activity like this and needs improvement.
+
+My gut tells me this behavior is an attempt to "age-up" TikTok accounts for a future spam (or, if we want to get even more sinister, misinformation/disinformation) campaign, but at this point in time that is unclear and I do not have any strong, specific evidence for that. Just a gut feeling. 
+
+The bright side is so many of them have, after a few days, been taken down. However, not before they could follow hundreds of users, and who knows if anyone was DM'd or interacted with any content in that time before the accounts were terminated. I did not observe any Likes, Comments, or DMs from these accounts on my own profile, but I'd be interested to know what others' experiences have been. 
+
+I will update this post as more accounts follow me and with any other insights I can provide. I know this conclusion is probably not as exciting as I might have set up for at the start of the post, but I still think it's interesting to try and figure out what these accounts have in common and to ponder what they might be for. 
+
+---
+
+Final note: some shameless self promo! I'm on TikTok [@astra.bun](https://www.tiktok.com/@astra.bun/). I post comedy skits, dancing/lip sync videos, and singing/music projects all with my VRChat Avatar involved for visuals, as well as some Twitch clips from my Twitch channel. As much as I sometimes dislike the platform, I also feel myself drawn to it and can't leave :sweat_smile:.
+
+<!-- 
+List of accounts
+  - lc42435c9c: Banned (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - n66581b6f: Banned (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - x32fc497dc: Banned (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - pdbae77bef: Banned (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - k74f8a9e4f: Banned (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - lc7af668f: Banned (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - p125abbdcb: Live (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - i8c495666e: Banned (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - p1dcdb5f: Banned (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - i880eOfeOa: Banned (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - p183eb8fb: Live (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - akayxyuwjejbg: Live (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+  - lc53eb68c: Live (as of 2022-09-19) (Response to my report the day they followed: "No Violation")
+
+-->
