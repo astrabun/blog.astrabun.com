@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog_astrabun_com=self.webpackChunkblog_astrabun_com||[]).push([[318],{1178:e=>{e.exports=JSON.parse('{"permalink":"/tags/life","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
